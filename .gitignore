@@ -1,3 +1,8 @@
+#project specific ignores
+config.py
+data/
+prototipo.ipynb
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
