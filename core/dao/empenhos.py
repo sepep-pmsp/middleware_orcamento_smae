@@ -4,7 +4,7 @@ from collections import defaultdict
 
 from .base import Dao
 from .api_client import SofClient
-from .utils_dotacao import ReconstructDotacao
+from ..utils.utils_dotacao import ReconstructDotacao
 
 from config import SOF_API_TOKEN
 

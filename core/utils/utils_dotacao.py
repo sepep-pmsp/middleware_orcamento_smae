@@ -74,3 +74,29 @@ class ReconstructDotacao:
     def __call__(self, resp:dict)->str:
 
         return self.dotacao_txt(resp)
+
+def validacao_dotacao(dotacao):
+
+    chr_per_posit = {
+        0: 2,
+        1: 2,
+        2: 2,
+        3: 3,
+        4: 4,
+        5: 1,
+        6: 3,
+        7: 8,
+        8: 2
+        }
+
+    for posit, item in dotacao.split('.'):
+
+        padrao = chr_per_posit(posit)
+        if len(item)!=padrao:
+            raise ValueError(f'Dotacao {dotacao} fora do padrão na posição {posit}')
+
+        try:
+            int(item)
+        except ValueError:
+            raise ValueError(f'Codigo de dotação não numérica {dotacao} para posição {posit}')
+    

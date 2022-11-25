@@ -1,6 +1,6 @@
 from functools import partial
 from .abstract_client import Client
-from core.dao.utils_dotacao import ParserDotacao
+from core.utils.utils_dotacao import ParserDotacao
 
 
 class SofClient:
