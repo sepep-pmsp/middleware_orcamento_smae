@@ -1,5 +1,6 @@
-from typing import List, Optional, Union
+from typing import List, Optional
 from datetime import datetime
+from fastapi import HTTPException
 
 from pydantic import BaseModel, validator, root_validator
 
@@ -21,7 +22,7 @@ class BuscaEmpenho(BaseModel):
         req_dt = datetime(year=ano, month=mes, day=1)
 
         if datetime.today()<req_dt:
-            raise ValueError(f'Data pesquisada {mes}/{ano} no futuro.')
+            raise HTTPException(400, detail = f'Data pesquisada {mes}/{ano} no futuro.')
 
         return values
 
@@ -37,12 +38,12 @@ class NotaEmpenho(BuscaEmpenho):
         formatado = formatado.strip()
 
         if len(formatado)!=5:
-            raise ValueError(f'Nota de empenho {valor_original} fora do padrão.')
+            raise HTTPException(400, detail=f'Nota de empenho {valor_original} fora do padrão.')
 
         try:
             return int(formatado)
         except ValueError:
-            raise ValueError(f'Nota de empenho {valor_original} fora do padrão.')
+            raise HTTPException(400, detail=f'Nota de empenho {valor_original} fora do padrão.')
 
 
 class Processo(BuscaEmpenho):
@@ -57,12 +58,12 @@ class Processo(BuscaEmpenho):
         formatado = formatado.strip()
 
         if len(formatado)!=16: 
-            raise ValueError(f'Processo {valor_original} fora do padrão.')
+            raise HTTPException(400, detail=f'Processo {valor_original} fora do padrão.')
         
         try:
             return int(formatado)
         except ValueError:
-            raise ValueError(f'Processo {valor_original} fora do padrão.')
+            raise HTTPException(400, detail=f'Processo {valor_original} fora do padrão.')
 
 
 class Dotacao(BuscaEmpenho):

@@ -1,6 +1,7 @@
 from typing import Callable
 from functools import wraps
-
+from requests.exceptions import HTTPError
+from ..exceptions import EmptyData, UnexpectedResponse
 
 class Dao:
 
@@ -10,7 +11,7 @@ class Dao:
 
         status = mdata.get('txtStatus', 'missing mdata')
         if status.lower()!='ok':
-            raise ValueError(f'Erro no status da resposta: {status}')
+            raise HTTPError(f'Erro no status da resposta: {status}')
 
     def __get_num_pages(self, resp:dict)->None:
 
@@ -40,7 +41,7 @@ class Dao:
         data = resp.get(data_key, None)
 
         if data is None:
-            raise ValueError(f'Empty data. Key {data_key}. Resp: {resp}')
+            raise EmptyData(f'Empty data. Key {data_key}. Resp: {resp}')
 
         if type(data) is dict:
             return self.__parse_single_resp(data, attr_keys)
@@ -48,7 +49,7 @@ class Dao:
         if type(data) is list:
             return self.__parse_array_resp(data, attr_keys)
 
-        raise ValueError(f'Unespected data type {type(data)}. Must be dict or list.')
+        raise UnexpectedResponse(f'Unespected data type {type(data)}. Must be dict or list.')
 
     def __paginate(self, get_func:Callable, data_key:str, attr_keys:list,
                  *_, **func_kwargs)->list:
