@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import Optional
 
-class MetaDados:
+class MetaDados(BaseModel):
 
     sucess: bool
     message: Optional[str]
