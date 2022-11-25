@@ -4,6 +4,7 @@ from datetime import datetime
 from pydantic import BaseModel, validator, root_validator
 
 from ..utils.utils_dotacao import validacao_dotacao
+from .metadados import MetaDados
 
 
 class BuscaEmpenho(BaseModel):
@@ -74,3 +75,23 @@ class Dotacao(BuscaEmpenho):
         validacao_dotacao(v)
 
         return v
+
+class RetornoEmpenho(BaseModel):
+
+    empenho_liquido: float
+    val_liquidado: float
+    dotacao: str
+    processo: Optional[int]
+
+
+    @validator('dotacao', pre=True, always=True)
+    def format_dotacao(cls, v):
+
+        validacao_dotacao(v)
+
+        return v
+
+class Empenhos(BaseModel):
+
+    data: List[RetornoEmpenho]
+    metadados: MetaDados
