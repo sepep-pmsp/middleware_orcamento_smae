@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-#from v1 import basic_app
-import uvicorn
+from v1 import empenhos_routes
+
 
 #pode colocar markdown
 description = """
@@ -23,4 +23,6 @@ app = FastAPI(openapi_url="/",
         "url": "https://www.gnu.org/licenses/agpl-3.0.en.html",
     },
     )
-#app.include_router(basic_app, prefix="/v1/basic")
+
+    
+app.include_router(empenhos_routes, prefix="/v1/empenhos")
