@@ -1,3 +1,4 @@
+import os
 class MissingEnvironmentVariable(Exception):
     pass
 
