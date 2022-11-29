@@ -20,5 +20,7 @@ else
     exit;
 fi
 
+PORT=${PORT:-80}
+
 #run container with restart
-docker run -d --name middleware_sof -e SOF_API_TOKEN="$SOF_API_TOKEN" --restart unless-stopped -p 80:80 middleware_sof
+docker run -d --name middleware_sof -e SOF_API_TOKEN="$SOF_API_TOKEN" --restart unless-stopped -p $PORT:80 middleware_sof
