@@ -11,8 +11,7 @@ docker rm $(docker ps -a -q)
 #pull new commits
 git pull
 
-#build image
-docker build -t middleware_sof .
+. build-container.sh
 
 #run container with restart
 docker run -d --name middleware_sof --restart unless-stopped -p 80:80 middleware_sof
