@@ -1,18 +1,26 @@
 #! /bin/bash
 
+set -e
+
 #stop container
-docker stop $(docker ps -a -q)
-#remove container
-docker rm $(docker ps -a -q)
+docker kill middleware_sof | true
+# stop the container
+docker rm middleware_sof | true
 
-#remove dangling image
-#docker image prune
+#pull new commits - nao entendi porque ficaria nesse script
+# git pull
 
-#pull new commits
-git pull
+. build-container.sh
 
-#build image
-docker build -t middleware_sof .
+if [ -f ".env" ]; then
+    echo "loading .env"
+    source .env
+else
+    echo ".env does not exist. please update it!"
+    exit;
+fi
+
+PORT=${PORT:-80}
 
 #run container with restart
-docker run -d --name middleware_sof --restart unless-stopped -p 80:80 middleware_sof
+docker run -d --name middleware_sof -e SOF_API_TOKEN="$SOF_API_TOKEN" --restart unless-stopped -p $PORT:80 middleware_sof

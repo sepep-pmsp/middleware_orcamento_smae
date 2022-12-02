@@ -10,7 +10,7 @@ class SofClient:
     version = 'v3.0.1'
 
     def __init__(self, auth_token:str)->None:
-    
+
         self.base_url = self.__build_base_url()
         self.auth_token = auth_token
 
@@ -70,11 +70,11 @@ class SofClient:
         params['anoEmpenho'] = ano
         params['mesEmpenho'] = mes
         params['numPagina'] = num_pag
-        
+
 
         return self.get(endpoint, **params)
 
-    def __check_params(self, dotacao:str=None, processo:str=None, 
+    def __check_params(self, dotacao:str=None, processo:str=None,
                 nota_empenho:str=None)->None:
 
         params = (dotacao, processo, nota_empenho)
@@ -85,7 +85,7 @@ class SofClient:
         if checksum>1:
             raise ValueError('Only one of dotacao, processo or nota_empenho must be defined.')
 
-    def __call__(self, ano:int, mes:int, *_, dotacao:str=None, 
+    def __call__(self, ano:int, mes:int, *_, dotacao:str=None,
         processo:int=None, nota_empenho: int=None, num_pag:int=1)->dict:
 
         self.__check_params(dotacao, processo, nota_empenho)
@@ -96,7 +96,6 @@ class SofClient:
             return self.empenhos_processo(ano, mes, processo, num_pag)
         if nota_empenho:
             return self.empenhos_nota_empenho(ano, mes, nota_empenho, num_pag)
-        
 
 
-    
+

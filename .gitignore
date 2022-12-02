@@ -1,5 +1,4 @@
 #project specific ignores
-config.py
 data/
 prototipo.ipynb
 
