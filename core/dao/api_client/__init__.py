@@ -1,1 +1,1 @@
-from .sof_client import SofClient
+from .client_empenhos import Client as ClientEmpenhos
