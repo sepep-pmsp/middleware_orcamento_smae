@@ -8,7 +8,7 @@ from core.exceptions import EmptyData
 from config import SOF_API_TOKEN
 
 
-class LstDotacao:
+class ItensDotacao:
 
     def __init__(self, auth_token:str=SOF_API_TOKEN)->None:
 
@@ -112,7 +112,7 @@ class LstDotacao:
             for unid in unid_org:
                 unid['cod_orgao'] = cod_orgao
             
-            unidades.append(unid_org)
+            unidades.extend(unid_org)
             
         data['unidades'] = unidades
 
