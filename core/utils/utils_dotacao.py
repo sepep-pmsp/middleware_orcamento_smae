@@ -76,7 +76,6 @@ class ReconstructDotacao:
         return self.dotacao_txt(resp)
 
 def validacao_dotacao(dotacao):
-
     print(dotacao)
     chr_per_posit = {
         0: 2,
@@ -90,14 +89,16 @@ def validacao_dotacao(dotacao):
         8: 2
         }
 
-    for posit, item in enumerate(dotacao.split('.')):
+    # Splitting the dotacao string and limiting the parts to the first 9 groups
+    dotacao_parts = dotacao.split('.')[:9]
 
+    for posit, item in enumerate(dotacao_parts):
         padrao = chr_per_posit[posit]
-        if len(item)!=padrao:
+
+        if len(item) != padrao:
             raise ValueError(f'Dotacao {dotacao} fora do padrão na posição {posit}')
 
         try:
             int(item)
         except ValueError:
             raise ValueError(f'Codigo de dotação não numérica {dotacao} para posição {posit}')
-    
