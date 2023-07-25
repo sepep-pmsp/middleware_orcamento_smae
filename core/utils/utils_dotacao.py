@@ -1,3 +1,31 @@
+import json
+
+
+
+class FonteSolver:
+    '''Resolve problema nas fontes de dotacao utilizando os dados cacheados'''
+
+    def __init__(self, fontes_cache_file:str = 'fontes_cache.json'):
+
+        cache = self.get_cache(fontes_cache_file)
+        self.mapper = self.build_mapper(cache)
+
+    def get_cache(self, fontes_cache_file:str)->dict:
+
+        with open(fontes_cache_file, 'r') as f:
+            fontes_cache = json.load(f)
+
+        return fontes_cache
+    
+    def build_mapper(self, cache:dict)->dict:
+
+        return {item['descricao'] : item['codigo'] for item in cache['fonte_recursos']}
+
+    def __call__(self, txt_fonte_recurso:str)->str:
+
+        return self.mapper[txt_fonte_recurso]
+
+
 
 
 class ParserDotacao:
@@ -42,6 +70,11 @@ class ParserDotacao:
 class ReconstructDotacao:
 
 
+    def __init__(self)->None:
+
+        self.solve_fonte = FonteSolver()
+
+
     def natureza_despesa(self, resp:dict)->str:
         
         estrutura = [
@@ -57,6 +90,9 @@ class ReconstructDotacao:
 
     def dotacao_txt(self, resp:dict)->str:
         
+
+        fonte = resp['codFonteRecurso'] or self.solve_fonte(resp['txtDescricaoFonteRecurso'])
+
         estrutura = [
             resp['codOrgao'],
             resp['codUnidade'],
@@ -66,7 +102,7 @@ class ReconstructDotacao:
             str(resp['codProjetoAtividade'])[0],
             str(resp['codProjetoAtividade'])[1:],
             self.natureza_despesa(resp),
-            resp['codFonteRecurso']
+            fonte
         ]
         
         return '.'.join(str(i) for i in estrutura)
