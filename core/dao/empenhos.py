@@ -50,7 +50,8 @@ class EmpenhosLiquidacoes:
         keys = (
             'valLiquidado',
             'valEmpenhadoLiquido',
-            'txtDescricaoProjetoAtividade'
+            'txtDescricaoProjetoAtividade',
+            'valPagoRestos'
         )
 
         return keys
@@ -80,7 +81,7 @@ class EmpenhosLiquidacoes:
         for d in data:
             dotacao = self.dotacao_txt(d)
             parsed[dotacao]['empenho_liquido'] += float(d['valEmpenhadoLiquido'])
-            parsed[dotacao]['val_liquidado'] += float(d['valLiquidado'])
+            parsed[dotacao]['val_liquidado'] += (float(d['valLiquidado']) + float(d['valPagoRestos']))
             parsed[dotacao]['projeto_atividade'] = str(d['txtDescricaoProjetoAtividade'])
             parsed[dotacao]['dotacao'] = dotacao
             if 'codProcesso' in d:
