@@ -1,12 +1,12 @@
 from functools import partial
 from .abstract_client import Client
+from config import SOF_API_HOST, SOF_API_VERSION
 
 
 class SofClient:
 
-    host = 'gatewayapi.prodam.sp.gov.br:443'
-    base_path = '/financas/orcamento/sof/'
-    version = 'v3.0.1'
+    host = SOF_API_HOST
+    version = SOF_API_VERSION
 
     def __init__(self, auth_token:str)->None:
 
@@ -17,7 +17,7 @@ class SofClient:
 
     def __build_base_url(self):
 
-        return f'https://{self.host}{self.base_path}{self.version}/'
+        return f'https://{self.host}/{self.version}/'
 
     def __build_headers(self):
 
