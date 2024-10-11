@@ -33,7 +33,7 @@ class ItensDotacao:
         return OrderedDict(
             orgaos = 'lstOrgaos',
             unidades = 'lstUnidades',
-            funcoes = 'lstFuncoes',
+            funcoes = 'lstFuncao',
             subfuncoes = 'lstSubFuncoes',
             programas = 'lstProgramas',
             projetos_atividades = 'lstProjetosAtividades',
@@ -51,6 +51,24 @@ class ItensDotacao:
             unique_keys.update(tuple(item.keys()))
         
         return unique_keys
+    
+    def __is_code_key(self, key:str)->bool:
+
+        key_lower = key.lower()
+        return key_lower.startswith('cod')
+
+
+    def __is_desc_key(self, key:str)->bool:
+
+        starts = ('txt', 'text')
+
+        key_lower = key.lower()
+
+        for start in starts:
+            if key_lower.startswith(start):
+                return True
+        else:
+            return False
 
     def __solve_data_keys(self, data:list)->dict:
 
@@ -59,9 +77,9 @@ class ItensDotacao:
 
         final_keys = {}
         for key in unique_keys:
-            if key.lower().startswith('cod'):
+            if self.__is_code_key(key):
                 final_keys['cod'] = key
-            elif key.lower().startswith('txt'):
+            elif self.__is_desc_key(key):
                 final_keys['desc'] = key
             else:
                 print(f'Unexpected key: {key}')
@@ -76,6 +94,7 @@ class ItensDotacao:
 
         keys = self.__solve_data_keys(resp)
         
+        print(resp)
         parsed = [
                     {'codigo' : item[keys['cod']],
                     'descricao' : item[keys['desc']]}
